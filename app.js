@@ -10,6 +10,8 @@ app.use(express.json());
 
 // update barkod
 
+// create barkod 
+
 app.post("/barkodproducts", async (req, res) => {
   try {
     const { barcode, product_id, product_name, amount, production_date, unit } =
