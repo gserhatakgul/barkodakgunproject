@@ -18,6 +18,18 @@ app.get("/barkodproducts", async (req, res) => {
 
 // get barkod
 
+app.get("/barkodproducts/:barcodeid", async (req, res) => {
+  const { barcodeid } = req.params;
+  try {
+    const getidbarcode = await pool.query(
+      "SELECT * FROM barkodproducts WHERE barcode = $1" , [barcodeid]
+    );
+    res.json(getidbarcode.rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 // update barkod
 
 // create barkod
@@ -30,7 +42,7 @@ app.post("/barkodproducts", async (req, res) => {
       "INSERT INTO barkodproducts (barcode,product_id,product_name,amount,production_date,unit) VALUES ($1,$2,$3,$4,$5,$6) RETURNING * ",
       [barcode, product_id, product_name, amount, production_date, unit]
     );
-    res.json(newbarcode.rows[2]);
+    res.json(newbarcode.rows[0]);
   } catch (error) {
     console.error(error);
   }
