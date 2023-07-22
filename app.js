@@ -22,7 +22,8 @@ app.get("/barkodproducts/:barcodeid", async (req, res) => {
   const { barcodeid } = req.params;
   try {
     const getidbarcode = await pool.query(
-      "SELECT * FROM barkodproducts WHERE barcode = $1" , [barcodeid]
+      "SELECT * FROM barkodproducts WHERE barcode = $1",
+      [barcodeid]
     );
     res.json(getidbarcode.rows[0]);
   } catch (error) {
@@ -31,6 +32,20 @@ app.get("/barkodproducts/:barcodeid", async (req, res) => {
 });
 
 // update barkod
+app.put("/barkodproducts/:barcodeid", async (req, res) => {
+  const { barcodeid } = req.params; // where
+  const { product_id, product_name, amount, production_date, unit } = req.body; // SET
+
+  try {
+    const updatebarcode = await pool.query(
+      "UPDATE barkodproducts SET product_id = $1 , product_name = $2 , amount = $3 , production_date = $4 , unit = $5 WHERE barcode = $6",
+      [product_id, product_name, amount, production_date, unit, barcodeid]
+    );
+    res.json("BARKOD GÜNCELLENDİ ");
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // create barkod
 
@@ -43,6 +58,21 @@ app.post("/barkodproducts", async (req, res) => {
       [barcode, product_id, product_name, amount, production_date, unit]
     );
     res.json(newbarcode.rows[0]);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// delete barkod
+
+app.delete("/barkodproducts/:barcodeid", async (req, res) => {
+  const { barcodeid } = req.params;
+  try {
+    const deletebarcode = await pool.query(
+      "DELETE FROM barkodproducts WHERE barcode = $1",
+      [barcodeid]
+    );
+    res.json("BARKOD SİLİNDİ");
   } catch (error) {
     console.error(error);
   }
