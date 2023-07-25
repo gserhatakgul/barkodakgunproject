@@ -6,18 +6,17 @@ const pool = require("./db");
 //middleware (json parser)
 
 app.use(express.json());
-//app.use(cors());
+app.use(cors());
 
+// search
 
-// search 
-
-app.get("/barkodproducts" , async (req ,  res ) =>{
-   try {
-    res.json = (req.query)
-   } catch (error) {
-    console.error(error)
-   }
-})
+app.get("/barkodproducts", async (req, res) => {
+  try {
+    res.json(req.query);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // get all barkod
 app.get("/barkodproducts", async (req, res) => {
