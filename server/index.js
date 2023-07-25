@@ -5,6 +5,7 @@ const pool = require("./db");
 //middleware (json parser)
 
 app.use(express.json());
+//app.use(cors())
 
 // get all barkod
 app.get("/barkodproducts", async (req, res) => {
