@@ -12,7 +12,12 @@ app.use(cors());
 
 app.get("/barkodproducts", async (req, res) => {
   try {
-    res.json(req.query);
+    const { searchbarkod } = req.query;
+    const searchbarkodproducts = await pool.query(
+      "SELECT  * FROM barkodproducts WHERE (product_name ILIKE lower(replace( $1 , 'I' , 'i') ) OR product_name ILIKE upper(replace($1 ,'i','İ'))) OR barcode::TEXT LIKE $1 ",
+      [`%${searchbarkod}%`]
+    );
+    res.json(searchbarkodproducts.rows);
   } catch (error) {
     console.error(error);
   }
@@ -22,9 +27,10 @@ app.get("/barkodproducts", async (req, res) => {
 app.get("/barkodproducts", async (req, res) => {
   try {
     const allbarcode = await pool.query("SELECT * FROM barkodproducts");
+
     res.json(allbarcode.rows);
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
   }
 });
 
