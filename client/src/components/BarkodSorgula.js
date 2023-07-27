@@ -1,18 +1,18 @@
 import React, { Fragment, useState } from "react";
 
+
 const Barkodsorgulaekran = () => {
   const [tbarcodealan, Settbarcodealan] = useState("");
-
+  const [barcodealan, Setbarcodealan] = useState([]);
   const submitform = async (e) => {
-    e.preventDefault();
+    e.preventDefault( );
     try {
       const response = await fetch(
         `http://localhost:5000/barkodproducts/?searchbarkod=${tbarcodealan}`
       );
 
       const parseResponse = await response.json();
-
-      console.log(parseResponse);
+      Setbarcodealan(parseResponse);
     } catch (err) {
       console.error(err.message);
     }
@@ -30,43 +30,34 @@ const Barkodsorgulaekran = () => {
           name="myInput"
           className="form-control m-1"
           value={tbarcodealan}
-          onChange={(e) => Settbarcodealan(e.target.value)}
+          onChange={ e => Settbarcodealan(e.target.value)}
         />
         <button type="button" className="btn btn-primary m-1 ">
           SORGULA
-        </button>
-        <button type="button" className="btn btn-primary m-1">
-          TÜM BARKODLARI SORGULA
         </button>
       </form>
       <table className="table m-5">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">barcode</th>
+            <th scope="col">product </th>
+            <th scope="col">product name</th>
+            <th scope="col">amount</th>
+            <th scope="col">date</th>
+            <th scope="col">unit</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+          {barcodealan.map((barcodeget) => (
+            <tr>
+              <td>{barcodeget.barcode}</td>
+              <td>{barcodeget.product_id}</td>
+              <td>{barcodeget.product_name}</td>
+              <td>{barcodeget.amount}</td>
+              <td>{barcodeget.production_date}</td>
+              <td>{barcodeget.unit}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </Fragment>
