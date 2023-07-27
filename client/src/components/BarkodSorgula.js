@@ -1,28 +1,45 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 
 const Barkodsorgulaekran = () => {
-  const { tbarcodealan, Settbarcodealan } = useState("");
+  const [tbarcodealan, Settbarcodealan] = useState("");
+
+  const submitform = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `http://localhost:5000/barkodproducts/?searchbarkod=${tbarcodealan}`
+      );
+
+      const parseResponse = await response.json();
+
+      console.log(parseResponse);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
 
   return (
     <Fragment>
       <h1 className="text-center text-primary my-5 ">
         BARKOD SORGULAMA EKRANI{" "}
       </h1>
-      <form className="d-flex ">
+      <form className="d-flex " onSubmit={submitform}>
         <input
           type="text"
           placeholder="barkod giriniz"
           name="myInput"
           className="form-control m-1"
+          value={tbarcodealan}
+          onChange={(e) => Settbarcodealan(e.target.value)}
         />
-        <button type="button" class="btn btn-primary m-1 ">
+        <button type="button" className="btn btn-primary m-1 ">
           SORGULA
         </button>
-        <button type="button" class="btn btn-primary m-1">
+        <button type="button" className="btn btn-primary m-1">
           TÜM BARKODLARI SORGULA
         </button>
       </form>
-      <table class="table m-5">
+      <table className="table m-5">
         <thead>
           <tr>
             <th scope="col">#</th>

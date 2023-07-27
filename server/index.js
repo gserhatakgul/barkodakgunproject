@@ -8,7 +8,8 @@ const pool = require("./db");
 app.use(express.json());
 app.use(cors());
 
-// search
+// search 
+// sql injection 
 
 app.get("/barkodproducts", async (req, res) => {
   try {
