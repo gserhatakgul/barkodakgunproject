@@ -8,8 +8,8 @@ const pool = require("./db");
 app.use(express.json());
 app.use(cors());
 
-// search 
-// sql injection 
+// search
+// sql injection
 
 app.get("/barkodproducts", async (req, res) => {
   try {
@@ -25,7 +25,7 @@ app.get("/barkodproducts", async (req, res) => {
 });
 
 // get all barkod
-app.get("/barkodproducts", async (req, res) => {
+app.get("/barkodproducts/getall", async (req, res) => {
   try {
     const allbarcode = await pool.query("SELECT * FROM barkodproducts");
 
