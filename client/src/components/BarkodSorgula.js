@@ -1,11 +1,10 @@
 import React, { Fragment, useState } from "react";
 
-
 const Barkodsorgulaekran = () => {
   const [tbarcodealan, Settbarcodealan] = useState("");
   const [barcodealan, Setbarcodealan] = useState([]);
   const submitform = async (e) => {
-    e.preventDefault( );
+    e.preventDefault();
     try {
       const response = await fetch(
         `http://localhost:5000/barkodproducts/?searchbarkod=${tbarcodealan}`
@@ -32,9 +31,7 @@ const Barkodsorgulaekran = () => {
           value={tbarcodealan}
           onChange={ e => Settbarcodealan(e.target.value)}
         />
-        <button type="button" className="btn btn-primary m-1 ">
-          SORGULA
-        </button>
+        
       </form>
       <table className="table m-5">
         <thead>
