@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model barkodproducts {
+  barcode         Int       @id @default(autoincrement())
+  product_id      Int
+  product_name    String    @db.VarChar(50)
+  amount          Decimal?  @db.Decimal(10, 2)
+  production_date DateTime? @db.Date
+  unit            Int
+}
