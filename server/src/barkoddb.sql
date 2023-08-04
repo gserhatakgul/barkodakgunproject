@@ -8,7 +8,7 @@ CREATE TABLE kullanıcılar(
 
 
 CREATE TABLE  barkodproducts(
-    barcode SERkIAL PRIMARY KEY  ,
+    barcode SERIAL PRIMARY KEY  ,
     product_id Integer  null  ,  
     product_name VARCHAR(50) not null ,
     amount NUMERIC(10,2),
