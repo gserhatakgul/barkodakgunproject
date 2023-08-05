@@ -8,10 +8,10 @@ datasource db {
 }
 
 model barkodproducts {
-  barcode         Int       @id @default(autoincrement())
+  barcode         Int       @id 
   product_id      Int
   product_name    String    @db.VarChar(50)
   amount          Decimal?  @db.Decimal(10, 2)
-  production_date DateTime? @db.Date
+  production_date String?   @db.VarChar(50)
   unit            Int
 }

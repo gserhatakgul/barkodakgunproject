@@ -3,6 +3,9 @@ const cors = require("cors");
 const app = express();
 const pool = require("./db");
 
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
 //middleware (json parser)
 
 app.use(express.json());
@@ -67,16 +70,29 @@ app.put("/barkodproducts/:barcodeid", async (req, res) => {
 });
 
 // create barkod
+// const newbarcode = await pool.query(
+//   "INSERT INTO barkodproducts (barcode,product_id,product_name,amount,production_date,unit) VALUES ($1,$2,$3,$4,$5,$6) RETURNING * ",
+//   [barcode, product_id, product_name, amount, production_date, unit]
+// res.json(newbarcode.rows[0]);
 
 app.post("/barkodproducts", async (req, res) => {
   try {
     const { barcode, product_id, product_name, amount, production_date, unit } =
       req.body;
-    const newbarcode = await pool.query(
-      "INSERT INTO barkodproducts (barcode,product_id,product_name,amount,production_date,unit) VALUES ($1,$2,$3,$4,$5,$6) RETURNING * ",
-      [barcode, product_id, product_name, amount, production_date, unit]
-    );
-    res.json(newbarcode.rows[0]);
+
+    const newBarcode = await prisma.barkodproducts.create({
+      data: {
+        barcode,
+        product_id,
+        product_name,
+        amount,
+        production_date,
+        unit,
+      },
+    });
+    console.log("New barcode created:", newBarcode); // Add this line
+
+    res.json(newBarcode);
   } catch (error) {
     console.error(error);
   }
