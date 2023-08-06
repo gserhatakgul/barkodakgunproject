@@ -1,12 +1,5 @@
 create database barkoddb; 
 
-CREATE TABLE kullanıcılar(
-
-
-);
-
-
-
 CREATE TABLE  barkodproducts(
     barcode SERIAL PRIMARY KEY  ,
     product_id Integer  null  ,  

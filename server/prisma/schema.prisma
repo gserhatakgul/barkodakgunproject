@@ -11,6 +11,9 @@ datasource db {
 
 model users {
   user_id String @id @default(uuid())
+  user_name String    @db.VarChar(250)
+  user_mail String    @db.VarChar(250)
+  user_pass String    @db.VarChar(250)
   
 }
 
