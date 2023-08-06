@@ -70,6 +70,7 @@ app.put("/barkodproducts/:barcodeid", async (req, res) => {
 });
 
 // create barkod
+
 // const newbarcode = await pool.query(
 //   "INSERT INTO barkodproducts (barcode,product_id,product_name,amount,production_date,unit) VALUES ($1,$2,$3,$4,$5,$6) RETURNING * ",
 //   [barcode, product_id, product_name, amount, production_date, unit]
@@ -90,7 +91,7 @@ app.post("/barkodproducts", async (req, res) => {
         unit,
       },
     });
-    console.log("New barcode created:", newBarcode); // Add this line
+    console.log("New barcode created:", newBarcode);
 
     res.json(newBarcode);
   } catch (error) {
@@ -99,14 +100,22 @@ app.post("/barkodproducts", async (req, res) => {
 });
 
 // delete barkod
+// const deletebarcode = await pool.query(
+//   "DELETE FROM barkodproducts WHERE barcode = $1",
+//   [barcodeid]
+// );
 
 app.delete("/barkodproducts/:barcodeid", async (req, res) => {
   const { barcodeid } = req.params;
+
+  const barcodevalue = parseInt(barcodeid);
+
   try {
-    const deletebarcode = await pool.query(
-      "DELETE FROM barkodproducts WHERE barcode = $1",
-      [barcodeid]
-    );
+    const barcodesil = await prisma.barkodproducts.delete({
+      where: {
+        barcode: barcodevalue,
+      },
+    });
     res.json("BARKOD SİLİNDİ");
   } catch (error) {
     console.error(error);
