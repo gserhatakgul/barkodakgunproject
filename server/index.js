@@ -11,11 +11,10 @@ const prisma = new PrismaClient();
 app.use(express.json());
 app.use(cors());
 
-//routes 
+//routes
 
-app.use("/authentication", require("./routes/jwtAuth"));
-app.use("/barcode.js",require("./routes/barcode"));
-
+app.use("/authentication", require("./routes/auth"));
+app.use("/barcode", require("./routes/barcode"));
 
 // listen
 

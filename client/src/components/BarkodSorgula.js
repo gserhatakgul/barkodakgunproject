@@ -1,13 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 
-const Barkodsorgulaekran = () => {
-  const [tbarcodealan, Settbarcodealan] = useState("");
+const Barkodsorgulaekran = ({ setAuth }) => {
   const [barcodealan, Setbarcodealan] = useState([]);
-  const submitform = async (e) => {
-    e.preventDefault();
+
+  const fetchBarcodeInfo = async (barcode) => {
     try {
       const response = await fetch(
-        `http://localhost:5000/barkodproducts/?searchbarkod=${tbarcodealan}`
+        `http://localhost:5000/barcode/barkodproducts/?searchbarkod=${barcode}`
       );
 
       const parseResponse = await response.json();
@@ -17,47 +16,70 @@ const Barkodsorgulaekran = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const barcodesorgu = e.target.barcode.value;
+    fetchBarcodeInfo(barcodesorgu);
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    try {
+      localStorage.removeItem("token");
+      setAuth(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   return (
-    <Fragment>
-      <h1 className="text-center text-primary my-5 ">
-        BARKOD SORGULAMA EKRANI{" "}
-      </h1>
-      <form className="d-flex " onSubmit={submitform}>
-        <input
-          type="text"
-          placeholder="barkod giriniz"
-          name="myInput"
-          className="form-control m-1"
-          value={tbarcodealan}
-          onChange={ e => Settbarcodealan(e.target.value)}
-        />
-        
-      </form>
-      <table className="table m-5">
-        <thead>
-          <tr>
-            <th scope="col">barcode</th>
-            <th scope="col">product </th>
-            <th scope="col">product name</th>
-            <th scope="col">amount</th>
-            <th scope="col">date</th>
-            <th scope="col">unit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {barcodealan.map((barcodeget) => (
+    <div className="bg-light vh-100">
+      <div className="container py-5">
+        <h1 className="text-center text-primary mb-5">
+          BARKOD SORGULAMA EKRANI
+        </h1>
+        <div className="d-flex justify-content-end">
+          <button onClick={handleLogout} className="btn btn-primary">
+            Logout
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="d-flex mt-3">
+          <input
+            type="text"
+            placeholder="ara"
+            className="form-control me-2"
+            name="barcode" // Added name attribute
+          />
+          <button type="submit" className="btn btn-primary">
+            Ara
+          </button>
+        </form>
+        <table className="table mt-5">
+          <thead>
             <tr>
-              <td>{barcodeget.barcode}</td>
-              <td>{barcodeget.product_id}</td>
-              <td>{barcodeget.product_name}</td>
-              <td>{barcodeget.amount}</td>
-              <td>{barcodeget.production_date}</td>
-              <td>{barcodeget.unit}</td>
+              <th scope="col">Barkod</th>
+              <th scope="col">Ürün</th>
+              <th scope="col">Ürün Adı</th>
+              <th scope="col">Miktar</th>
+              <th scope="col">Tarih</th>
+              <th scope="col">Birim</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </Fragment>
+          </thead>
+          <tbody>
+            {barcodealan.map((barcodeget) => (
+              <tr key={barcodeget.barcode}>
+                <td>{barcodeget.barcode}</td>
+                <td>{barcodeget.product_id}</td>
+                <td>{barcodeget.product_name}</td>
+                <td>{barcodeget.amount}</td>
+                <td>{barcodeget.production_date}</td>
+                <td>{barcodeget.unit}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

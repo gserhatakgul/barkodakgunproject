@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearch"]
 }
 
@@ -8,20 +8,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model users {
-  user_id String @id @default(uuid())
-  user_name String    @db.VarChar(250)
-  user_mail String    @db.VarChar(250)
-  user_pass String    @db.VarChar(250)
-  
+model kullanici {
+  user_id    String @id @map("user_id")
+  user_name  String @db.VarChar(250)
+  user_email String @unique @db.VarChar(250)
+  user_pass  String @db.VarChar(250)
 }
 
 model barkodproducts {
-  barcode         Int       @id 
+  barcode         Int     @id
   product_id      Int
-  product_name    String    @db.VarChar(50)
-  amount          Decimal?  @db.Decimal(10, 2)
-  production_date String?   @db.VarChar(50)
+  product_name    String   @db.VarChar(50)
+  amount          Decimal? @db.Decimal(10, 2)
+  production_date String?  @db.VarChar(50)
   unit            Int
 }
